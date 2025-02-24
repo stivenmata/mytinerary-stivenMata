@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "../components/SearchBar";
 
 const Cities = () => {
   const [loading, setLoading] = useState(true);
@@ -19,20 +20,33 @@ const Cities = () => {
           <div className="h-48 w-full bg-gray-500 rounded-lg animate-pulse"></div>
         </div>
       ) : (
-        <div className="flex flex-col items-center bg-white p-8 rounded-lg shadow-lg text-gray-900 max-w-2xl animate-fadeIn opacity-100 transition-opacity duration-1000">
-          <h1 className="text-4xl font-extrabold mb-4 animate-slideInDown">🌍 Exciting Adventures Await! 🌍</h1>
+        <div className="flex flex-col items-center bg-white p-8 rounded-lg shadow-lg text-gray-900 max-w-3xl animate-fadeIn opacity-100 transition-opacity duration-1000">
+          {/* Título */}
+          <h1 className="text-4xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 animate-slideInDown">
+            🌍 Explore the Best Cities! 🌍
+          </h1>
+
+          {/* Barra de búsqueda */}
+          <div className="w-full flex justify-center mb-6">
+            <SearchBar />
+          </div>
+
+          {/* Texto descriptivo */}
           <p className="text-lg max-w-lg mb-6 animate-fadeIn">
-            Our team is working hard to bring you the best city itineraries.
-            Soon, you'll be able to explore unique places with personalized experiences.
+          We are currently working on improving your experience. Stay tuned for exciting updates and new features!
           </p>
+
+          {/* Botón de regreso */}
           <button
             onClick={() => navigate("/")}
             className="px-8 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg shadow-md hover:scale-105 transition-transform duration-300 text-lg font-semibold"
           >
             🔙 Back to Home
           </button>
+
+          {/* Mensaje extra */}
           <p className="mt-4 text-sm text-gray-700 animate-bounce">
-            New adventures are coming soon!
+            New adventures are waiting for you!
           </p>
         </div>
       )}

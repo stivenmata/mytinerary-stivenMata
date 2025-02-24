@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -12,7 +13,10 @@ const Home = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 2000,
+    arrows: true,
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
   };
 
   const cities = [
@@ -31,31 +35,39 @@ const Home = () => {
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen p-8 bg-gray-100">
-      {/* Hero Section */}
-      <div className="w-full lg:w-1/2 text-center lg:text-left mb-8 lg:mb-0">
-        <h1 className="text-5xl font-bold text-gray-800 mb-4">
-          Find Your Perfect Trip Designed by insiders who know and love their cities!
+    <div className="flex flex-col lg:flex-row items-center justify-around min-h-screen p-4 lg:p-6 bg-gradient-to-r from-blue-900 to-purple-900 text-white">
+      {/* Hero Section más pegado al carrusel */}
+      <div className="w-full lg:w-1/3 text-center lg:text-left space-y-4 lg:pl-8">
+        <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight">
+          Find the <span className="text-yellow-400">Perfect Destination</span>
         </h1>
-        <p className="text-lg text-gray-600 mb-6">
-        Our app will help you find the perfect path for your next trip. With an easy-to-use interface and a host of itinerary options, planning your next trip has never been easier.
+        <p className="text-base lg:text-lg text-gray-300">
+          We are currently working on improving your experience. Stay tuned for exciting updates and new features!
         </p>
-        <Link to="/cities" className="px-6 py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300">
+        <Link
+          to="/cities"
+          className="px-5 py-2 lg:px-6 lg:py-3 bg-yellow-400 text-black font-bold rounded-lg shadow-lg hover:bg-yellow-500 transition-transform transform hover:scale-105"
+        >
           Explore Cities
         </Link>
       </div>
-      {/* Carrusel */}
-      <div className="w-full lg:w-1/2">
-        <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">
-          Popular Mytineraries
+
+      {/* Carrusel más adaptado */}
+      <div className="w-full lg:w-[60%] relative mt-6 lg:mt-0">
+        <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4 lg:mb-6">
+          Popular <span className="text-yellow-400">MyTineraries</span>
         </h2>
         <Slider {...settings}>
           {Array.from({ length: 3 }, (_, i) => (
-            <div key={i} className="grid grid-cols-2 gap-4">
+            <div key={i} className="grid grid-cols-2 gap-4 lg:gap-6 p-4 lg:p-6">
               {cities.slice(i * 4, i * 4 + 4).map((city, index) => (
-                <div key={index} className="relative">
-                  <img src={city.image} alt={city.name} className="w-full h-40 object-cover rounded-lg shadow-md" />
-                  <div className="absolute bottom-2 left-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded">
+                <div key={index} className="relative group">
+                  <img
+                    src={city.image}
+                    alt={city.name}
+                    className="w-full h-28 lg:h-36 object-cover rounded-lg shadow-md transition-transform duration-300 transform group-hover:scale-105"
+                  />
+                  <div className="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded-lg text-xs lg:text-sm">
                     {city.name}
                   </div>
                 </div>
@@ -67,5 +79,30 @@ const Home = () => {
     </div>
   );
 };
+
+const CustomPrevArrow = (props) => (
+  <button
+    {...props}
+    className="hidden sm:flex absolute top-1/2 -translate-y-1/2 -left-2 sm:-left-3 md:-left-4 lg:-left-5 xl:-left-7 z-20 
+    bg-black bg-opacity-50 p-0.5 sm:p-1 md:p-1 lg:p-1.5 xl:p-2 rounded-full hover:bg-opacity-80 transition"
+  >
+    <ChevronLeft className="text-white w-3 h-3 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6" />
+  </button>
+);
+
+const CustomNextArrow = (props) => (
+  <button
+    {...props}
+    className="hidden sm:flex absolute top-1/2 -translate-y-1/2 -right-2 sm:-right-3 md:-right-4 lg:-right-5 xl:-right-7 z-20 
+    bg-black bg-opacity-50 p-0.5 sm:p-1 md:p-1 lg:p-1.5 xl:p-2 rounded-full hover:bg-opacity-80 transition"
+  >
+    <ChevronRight className="text-white w-3 h-3 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6" />
+  </button>
+);
+
+
+
+
+
 
 export default Home;

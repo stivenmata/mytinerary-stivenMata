@@ -18,11 +18,11 @@ const HeroSection = () => {
       {/* Contenido principal con animaciones */}
       <div className="relative z-20 px-6 space-y-8">
         <h1 className="text-6xl font-bold animate-fade-in-down drop-shadow-lg">
-          Discover Your Perfect Itinerary
+        My Tineraries
         </h1>
         
         <p className="text-xl max-w-2xl mx-auto animate-fade-in-up opacity-80">
-          Find your next adventure designed by insiders who know and love their cities.
+        "Find your perfect trip, designed by insiders who know and love their cities!"
         </p>
         
         {/* Botón con efecto de brillo y pulso */}
