@@ -4,6 +4,18 @@ import Slider from "react-slick";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import newYork from "../image/nuevaYork.jpg";
+import paris from "../image/Paris.jpg";
+import tokyo from "../image/Tokyo.jpg";
+import london from "../image/London.jpg";
+import rome from "../image/Rome.jpg";
+import barcelona from "../image/barcelona.jpg";
+import sydney from "../image/sydney.jpg";
+import dubai from "../image/Dubai.webp";
+import berlin from "../image/Berlin.avif";
+import amsterdam from "../image/Amsterdam.jpeg";
+import buenosAires from "../image/buenosaires.jpg";
+import losAngeles from "../image/Losangeles.jpg";
 
 const Home = () => {
   const settings = {
@@ -19,24 +31,26 @@ const Home = () => {
     nextArrow: <CustomNextArrow />,
   };
 
+  
   const cities = [
-    { name: "New York", image: "/assets/nyc.jpg" },
-    { name: "Paris", image: "/assets/paris.jpg" },
-    { name: "Tokyo", image: "/assets/tokyo.jpg" },
-    { name: "London", image: "/assets/london.jpg" },
-    { name: "Rome", image: "/assets/rome.jpg" },
-    { name: "Barcelona", image: "/assets/barcelona.jpg" },
-    { name: "Sydney", image: "/assets/sydney.jpg" },
-    { name: "Dubai", image: "/assets/dubai.jpg" },
-    { name: "Berlin", image: "/assets/berlin.jpg" },
-    { name: "Amsterdam", image: "/assets/amsterdam.jpg" },
-    { name: "Buenos Aires", image: "/assets/buenosaires.jpg" },
-    { name: "Los Angeles", image: "/assets/la.jpg" },
+    { name: "New York", image: newYork },
+    { name: "Paris", image: paris },
+    { name: "Tokyo", image: tokyo },
+    { name: "London", image: london },
+    { name: "Rome", image: rome },
+    { name: "Barcelona", image: barcelona },
+    { name: "Sydney", image: sydney },
+    { name: "Dubai", image: dubai },
+    { name: "Berlin", image: berlin },
+    { name: "Amsterdam", image: amsterdam },
+    { name: "Buenos Aires", image: buenosAires },
+    { name: "Los Angeles", image: losAngeles },
   ];
+  
 
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-around min-h-screen p-4 lg:p-6 bg-gradient-to-r from-blue-900 to-purple-900 text-white">
-      {/* Hero Section más pegado al carrusel */}
+    <div className="flex flex-col lg:flex-row items-center justify-around min-h-screen p-4 lg:p-6 bg-gradient-to-r from-blue-900 to-purple-900 text-white pb-16 lg:pb-20">
+     
       <div className="w-full lg:w-1/3 text-center lg:text-left space-y-4 lg:pl-8">
         <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight">
           Find the <span className="text-yellow-400">Perfect Destination</span>
@@ -52,7 +66,7 @@ const Home = () => {
         </Link>
       </div>
 
-      {/* Carrusel más adaptado */}
+      
       <div className="w-full lg:w-[60%] relative mt-6 lg:mt-0">
         <h2 className="text-2xl lg:text-3xl font-semibold text-center mb-4 lg:mb-6">
           Popular <span className="text-yellow-400">MyTineraries</span>
@@ -99,10 +113,5 @@ const CustomNextArrow = (props) => (
     <ChevronRight className="text-white w-3 h-3 sm:w-4 sm:h-4 md:w-4 md:h-4 lg:w-5 lg:h-5 xl:w-6 xl:h-6" />
   </button>
 );
-
-
-
-
-
 
 export default Home;

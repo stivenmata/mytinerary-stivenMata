@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="bg-black text-white py-6">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-4">
-        {/* Contact Us */}
+        
         <div className="text-center md:text-left mb-4 md:mb-0">
           <h2 className="text-lg font-bold">Contact Us</h2>
           <p>123 Street, City</p>
@@ -12,9 +12,9 @@ const Footer = () => {
           <p>Phone: (123) 456-7890</p>
         </div>
 
-        {/* Contenedor combinado en móviles/tablets */}
+        
         <div className="flex flex-col md:flex-row md:max-w-[60%] w-full md:justify-between space-y-4 md:space-y-0">
-          {/* Follow Us */}
+          
           <div className="w-full md:w-1/2 text-center md:text-left">
             <h2 className="text-lg font-bold">Follow Us</h2>
             <div className="flex justify-center md:justify-start space-x-4">
@@ -45,7 +45,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Navigation */}
+          
           <div className="w-full md:w-1/2 text-center md:text-left">
             <h2 className="text-lg font-bold">Navigation</h2>
             <nav className="flex justify-center md:justify-start space-x-4">
