@@ -5,7 +5,7 @@ const Footer = () => {
     <footer className="bg-black text-white py-6">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-6 space-y-6 md:space-y-0">
         
-        {/* Contact Information */}
+        
         <div className="text-center md:text-left w-full md:w-1/3">
           <h2 className="text-lg font-bold">Contact Us</h2>
           <p>123 Street, City</p>
@@ -13,10 +13,10 @@ const Footer = () => {
           <p>Phone: (123) 456-7890</p>
         </div>
 
-        {/* Social & Navigation in a column first, then row on larger screens */}
+        
         <div className="w-full md:w-2/3 flex flex-col md:flex-row md:justify-between items-center md:items-start space-y-6 md:space-y-0">
           
-          {/* Follow Us */}
+          
           <div className="w-full md:w-1/2 text-center md:text-left">
             <h2 className="text-lg font-bold">Follow Us</h2>
             <div className="flex justify-center md:justify-start space-x-6">
@@ -47,7 +47,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Navigation */}
+          
           <div className="w-full md:w-1/2 text-center md:text-left">
             <h2 className="text-lg font-bold">Navigation</h2>
             <nav className="flex flex-col md:flex-row justify-center md:justify-start md:space-x-6 space-y-3 md:space-y-0">
