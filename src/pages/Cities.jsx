@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCities, filterCities } from "../redux/features/citiesSlice";
 import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import { FaMapMarkerAlt } from "react-icons/fa";
@@ -6,39 +8,17 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 const backendURL = "http://localhost:5000";
 
 const Cities = () => {
-  const [cities, setCities] = useState([]);
-  const [filteredCities, setFilteredCities] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { filteredCities, loading } = useSelector((state) => state.cities);
+
   useEffect(() => {
-    fetch(`${backendURL}/api/cities`)
-      .then((res) => res.json())
-      .then((response) => {
-        if (response.success && Array.isArray(response.data)) {
-          setCities(response.data);
-          setFilteredCities(response.data);
-        } else {
-          console.error("Invalid API response:", response);
-          setCities([]);
-          setFilteredCities([]);
-        }
-      })
-      .catch((err) => {
-        console.error("Error fetching cities:", err);
-        setCities([]);
-        setFilteredCities([]);
-      })
-      .finally(() => setLoading(false));
-  }, []);
+    dispatch(fetchCities());
+  }, [dispatch]);
 
   const handleSearch = (query) => {
-    const filtered = query.trim()
-      ? cities.filter((city) =>
-          city.name.toLowerCase().startsWith(query.toLowerCase()) 
-        )
-      : cities;
-    setFilteredCities(filtered);
+    dispatch(filterCities(query));
   };
 
   return (
@@ -52,12 +32,10 @@ const Cities = () => {
           </div>
         ) : (
           <div className="flex flex-col items-center w-full max-w-6xl pb-20">
-            {/* Barra de búsqueda */}
             <div className="w-full flex justify-center mb-8">
               <SearchBar onSearch={handleSearch} />
             </div>
 
-            {/* Lista de ciudades */}
             {filteredCities.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
                 {filteredCities.map((city) => (
