@@ -11,11 +11,17 @@ const Cities = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { filteredCities, loading } = useSelector((state) => state.cities);
+  const { filteredCities, loading, allCities } = useSelector((state) => state.cities);
+
+
+
 
   useEffect(() => {
-    dispatch(fetchCities());
-  }, [dispatch]);
+    if (!allCities || allCities.length === 0) {
+      dispatch(fetchCities());
+    }
+  }, [dispatch, allCities]);
+  
 
   const handleSearch = (query) => {
     dispatch(filterCities(query));
@@ -68,7 +74,7 @@ const Cities = () => {
             ) : (
               <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md mt-8 animate-fadeIn text-center border-2 border-gray-300">
                 <p className="text-4xl font-bold text-gray-800 drop-shadow-md">
-                   No Results Found
+                  No Results Found
                 </p>
                 <p className="text-lg text-gray-700 italic mt-3">
                   Try searching for another destination. 🌍

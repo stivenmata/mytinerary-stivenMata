@@ -32,11 +32,13 @@ const citiesSlice = createSlice({
     builder
       .addCase(fetchCities.pending, (state) => {
         state.loading = true;
+        state.error = null;
       })
       .addCase(fetchCities.fulfilled, (state, action) => {
         state.loading = false;
         state.allCities = action.payload;
         state.filteredCities = action.payload;
+        state.error = null;
       })
       .addCase(fetchCities.rejected, (state, action) => {
         state.loading = false;
@@ -45,7 +47,8 @@ const citiesSlice = createSlice({
         state.filteredCities = [];
       });
   },
-});
+  
+});  
 
 export const { filterCities } = citiesSlice.actions;
 export default citiesSlice.reducer;
