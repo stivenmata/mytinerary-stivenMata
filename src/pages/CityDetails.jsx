@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchItinerariesByCity,
-  likeItinerary,
-} from "../redux/features/itinerariesSlice";
+import {fetchItinerariesByCity,likeItinerary,} from "../redux/features/itinerariesSlice";
 import { fetchCities } from "../redux/features/citiesSlice";
 
 const backendURL = "http://localhost:5000";
@@ -29,24 +26,24 @@ const CityDetails = () => {
     ? cities.find((c) => c.name.toLowerCase() === cityName.toLowerCase())
     : null;
 
-  // Fetch cities on component mount
+  
   useEffect(() => {
     dispatch(fetchCities());
   }, [dispatch]);
 
-  // Fetch itineraries when city data is available
+  
   useEffect(() => {
     if (city?._id) {
       dispatch(fetchItinerariesByCity(city._id));
     }
   }, [dispatch, city]);
 
-  // Handle image loading
+  
   useEffect(() => {
-    // Try to find city image from backend
+    
     const loadCityImage = async () => {
       if (city?.image) {
-        // If city has an image path in the data
+        
         try {
           const response = await fetch(`${backendURL}${city.image}`, { method: "HEAD" });
           if (response.ok) {
@@ -55,11 +52,11 @@ const CityDetails = () => {
             return;
           }
         } catch (error) {
-          // Silent fail - will try other formats
+          
         }
       }
 
-      // Try different image formats as fallback
+      
       const formats = ["avif", "jpg", "jpeg", "webp", "png"];
       const cityFormatted = cityName.replace(/\s+/g, "");
 
@@ -73,11 +70,11 @@ const CityDetails = () => {
             return;
           }
         } catch (error) {
-          // Silent fail
+          
         }
       }
 
-      // Default placeholder if no image is found
+      
       setImageSrc("https://dummyimage.com/800x400/cccccc/000000&text=No+Image");
       setLoadingImage(false);
     };
@@ -104,7 +101,7 @@ const CityDetails = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-blue-900 to-purple-900 text-white">
-      {/* Hero Section with Parallax Effect */}
+      
       <div className="relative h-screen overflow-hidden">
         {loadingImage ? (
           <div className="absolute inset-0 bg-gray-800 animate-pulse" />
@@ -202,7 +199,7 @@ const CityDetails = () => {
             </div>
           </div>
 
-          {/* Additional City Info */}
+          
           <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-gradient-to-br from-blue-800 to-purple-800 bg-opacity-40 rounded-xl p-6 backdrop-blur-sm border border-blue-700">
               <h3 className="text-xl font-bold text-center text-blue-300 mb-4">Country Information</h3>
@@ -316,7 +313,7 @@ const CityDetails = () => {
                       </button>
                     </div>
                     
-                    {/* Author - mejorado y más destacado */}
+                    
                     <div className="flex items-center gap-3 mb-4 bg-blue-900 bg-opacity-20 p-2 rounded-lg border-l-4 border-blue-600">
                       <img
                         src={itinerary.authorPhoto || "https://i.imgur.com/Vz81GEl.png"}
@@ -375,7 +372,7 @@ const CityDetails = () => {
                           <span>COMMENTS</span>
                         </h4>
                         
-                        {/* Mostrar comentarios existentes */}
+                        
                         {itinerary.comments && itinerary.comments.length > 0 ? (
                           <div className="space-y-3 mb-4">
                             {itinerary.comments.map((comment, idx) => (
