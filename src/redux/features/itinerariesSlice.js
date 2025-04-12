@@ -1,9 +1,8 @@
-// redux/features/itinerariesSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const backendURL = "http://localhost:5000";
 
-// Acción asincrónica para obtener itinerarios por nombre de ciudad
+
 export const fetchItinerariesByCity = createAsyncThunk(
   "itineraries/fetchByCity",
   async (cityName) => {
@@ -14,6 +13,24 @@ export const fetchItinerariesByCity = createAsyncThunk(
   }
 );
 
+
+export const likeItinerary = createAsyncThunk(
+  "itineraries/like",
+  async (itineraryId) => {
+    const res = await fetch(`${backendURL}/api/itineraries/like/${itineraryId}`, {
+      method: "PUT",
+    });
+    if (!res.ok) {
+      
+      throw new Error('Failed to like itinerary');
+    }
+    const data = await res.json();
+    if (!data._id) throw new Error("Failed to like itinerary");
+    return data; 
+  }
+);
+
+
 const itinerariesSlice = createSlice({
   name: "itineraries",
   initialState: {
@@ -21,9 +38,16 @@ const itinerariesSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    resetItineraries: (state) => {
+      state.items = [];
+      state.loading = false;
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
+      // Obtener itinerarios
       .addCase(fetchItinerariesByCity.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -36,8 +60,22 @@ const itinerariesSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
         state.items = [];
+      })
+
+      // Like itinerario
+      .addCase(likeItinerary.fulfilled, (state, action) => {
+        const updated = action.payload;
+        const index = state.items.findIndex((i) => i._id === updated._id);
+        if (index !== -1) {
+          state.items[index] = updated; 
+        }
+      })
+      
+      .addCase(likeItinerary.rejected, (state, action) => {
+        state.error = action.error.message;
       });
   },
 });
 
+export const { resetItineraries } = itinerariesSlice.actions;
 export default itinerariesSlice.reducer;

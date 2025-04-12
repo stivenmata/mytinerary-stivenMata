@@ -6,7 +6,7 @@ import itinerariesReducer from "./features/itinerariesSlice"; // ✅ Importa el 
 const store = configureStore({
   reducer: {
     cities: citiesReducer,
-    itineraries: itinerariesReducer, // ✅ Agrega al store
+    itineraries: itinerariesReducer, 
   },
 });
 
