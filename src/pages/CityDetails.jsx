@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {fetchItinerariesByCity,likeItinerary,} from "../redux/features/itinerariesSlice";
+import {
+  fetchItinerariesByCity,
+  likeItinerary,
+} from "../redux/features/itinerariesSlice";
 import { fetchCities } from "../redux/features/citiesSlice";
 
 const backendURL = "http://localhost:5000";
@@ -14,8 +17,6 @@ const CityDetails = () => {
   const [imageSrc, setImageSrc] = useState("");
   const [loadingImage, setLoadingImage] = useState(true);
   const [warningShown, setWarningShown] = useState({});
-  const [showCommentBox, setShowCommentBox] = useState({});
-  const [comment, setComment] = useState("");
 
   const itineraries = useSelector((state) => state.itineraries.items || []);
   const loadingItineraries = useSelector((state) => state.itineraries.loading);
@@ -26,24 +27,19 @@ const CityDetails = () => {
     ? cities.find((c) => c.name.toLowerCase() === cityName.toLowerCase())
     : null;
 
-  
   useEffect(() => {
     dispatch(fetchCities());
   }, [dispatch]);
 
-  
   useEffect(() => {
     if (city?._id) {
       dispatch(fetchItinerariesByCity(city._id));
     }
   }, [dispatch, city]);
 
-  
   useEffect(() => {
-    
     const loadCityImage = async () => {
       if (city?.image) {
-        
         try {
           const response = await fetch(`${backendURL}${city.image}`, { method: "HEAD" });
           if (response.ok) {
@@ -52,13 +48,13 @@ const CityDetails = () => {
             return;
           }
         } catch (error) {
-          
+          // Continue to fallback
         }
       }
 
-      
+      // Try standard image formats
       const formats = ["avif", "jpg", "jpeg", "webp", "png"];
-      const cityFormatted = cityName.replace(/\s+/g, "");
+      const cityFormatted = city.name.toLowerCase().replace(/\s+/g, "-");
 
       for (const ext of formats) {
         const url = `${backendURL}/images/cities/${cityFormatted}.${ext}`;
@@ -70,11 +66,11 @@ const CityDetails = () => {
             return;
           }
         } catch (error) {
-          
+          // Continue trying other formats
         }
       }
 
-      
+      // Fallback to placeholder
       setImageSrc("https://dummyimage.com/800x400/cccccc/000000&text=No+Image");
       setLoadingImage(false);
     };
@@ -85,13 +81,9 @@ const CityDetails = () => {
   }, [cityName, city]);
 
   const handleViewMoreClick = (id) => {
-    setWarningShown((prev) => ({ ...prev, [id]: true }));
-  };
-
-  const toggleCommentBox = (id) => {
-    setShowCommentBox((prev) => ({
-      ...prev,
-      [id]: !prev[id],
+    setWarningShown((prev) => ({ 
+      ...prev, 
+      [id]: !prev[id] // Toggle the under construction message
     }));
   };
 
@@ -101,7 +93,7 @@ const CityDetails = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-blue-900 to-purple-900 text-white">
-      
+      {/* Hero Section with Background Image */}
       <div className="relative h-screen overflow-hidden">
         {loadingImage ? (
           <div className="absolute inset-0 bg-gray-800 animate-pulse" />
@@ -199,7 +191,7 @@ const CityDetails = () => {
             </div>
           </div>
 
-          
+          {/* Additional City Information */}
           <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-gradient-to-br from-blue-800 to-purple-800 bg-opacity-40 rounded-xl p-6 backdrop-blur-sm border border-blue-700">
               <h3 className="text-xl font-bold text-center text-blue-300 mb-4">Country Information</h3>
@@ -313,7 +305,7 @@ const CityDetails = () => {
                       </button>
                     </div>
                     
-                    
+                    {/* Author Info */}
                     <div className="flex items-center gap-3 mb-4 bg-blue-900 bg-opacity-20 p-2 rounded-lg border-l-4 border-blue-600">
                       <img
                         src={itinerary.authorPhoto || "https://i.imgur.com/Vz81GEl.png"}
@@ -338,79 +330,24 @@ const CityDetails = () => {
                       ))}
                     </div>
                     
-                    {/* Actions */}
-                    <div className="flex justify-between border-t border-gray-700 pt-4">
+                    {/* Actions - Now just a single "View Details" button */}
+                    <div className="flex justify-end border-t border-gray-700 pt-4">
                       <button
-                        onClick={() => toggleCommentBox(itinerary._id)}
-                        className="text-sm text-blue-300 hover:text-blue-200 transition-colors duration-300 flex items-center gap-1 bg-blue-900 bg-opacity-30 px-3 py-1 rounded-full"
+                        onClick={() => handleViewMoreClick(itinerary._id)}
+                        className="text-sm text-purple-300 hover:text-purple-200 transition-colors duration-300 flex items-center gap-1 bg-purple-900 bg-opacity-30 px-3 py-1 rounded-full"
                       >
-                        <span>💬</span>
-                        <span>Comments ({itinerary.comments?.length || 0})</span>
+                        <span>View Details</span>
+                        <span>→</span>
                       </button>
-                      
-                      {!warningShown[itinerary._id] ? (
-                        <button
-                          onClick={() => handleViewMoreClick(itinerary._id)}
-                          className="text-sm text-purple-300 hover:text-purple-200 transition-colors duration-300 flex items-center gap-1 bg-purple-900 bg-opacity-30 px-3 py-1 rounded-full"
-                        >
-                          <span>View Details</span>
-                          <span>→</span>
-                        </button>
-                      ) : (
-                        <p className="text-yellow-300 text-sm animate-pulse flex items-center gap-1 bg-yellow-900 bg-opacity-30 px-3 py-1 rounded-full">
-                          <span>🚧</span>
-                          <span>Coming soon</span>
-                        </p>
-                      )}
                     </div>
                     
-                    {/* Comments Box */}
-                    {showCommentBox[itinerary._id] && (
-                      <div className="mt-6 pt-4 border-t border-gray-700 bg-gray-900 bg-opacity-50 p-4 rounded-xl">
-                        <h4 className="text-sm font-bold text-blue-300 mb-3 flex items-center gap-2">
-                          <span>💬</span>
-                          <span>COMMENTS</span>
-                        </h4>
-                        
-                        
-                        {itinerary.comments && itinerary.comments.length > 0 ? (
-                          <div className="space-y-3 mb-4">
-                            {itinerary.comments.map((comment, idx) => (
-                              <div key={idx} className="flex gap-2 bg-gray-800 bg-opacity-50 p-3 rounded-lg">
-                                <div className="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center text-white text-xs">
-                                  {comment.user.charAt(0)}
-                                </div>
-                                <div>
-                                  <p className="text-white text-sm font-semibold">{comment.user}</p>
-                                  <p className="text-gray-300 text-sm">{comment.text}</p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <p className="text-gray-400 text-sm mb-4">There are no comments yet, be the first!</p>
-                        )}
-                        
-                        <div className="flex gap-3">
-                          <img
-                            src="https://i.imgur.com/Vz81GEl.png"
-                            alt="Avatar"
-                            className="w-8 h-8 object-cover rounded-full flex-shrink-0"
-                          />
-                          <div className="flex-1 bg-gray-800 bg-opacity-70 rounded-xl overflow-hidden border border-gray-700">
-                            <textarea
-                              placeholder="Share your experience in the city..."
-                              className="w-full p-3 resize-none border-none outline-none text-gray-300 bg-transparent"
-                              rows="2"
-                              value={comment}
-                              onChange={(e) => setComment(e.target.value)}
-                            />
-                            <div className="flex justify-end p-2 bg-gray-800 bg-opacity-70">
-                              <button className="px-3 py-1 bg-gradient-to-r from-blue-700 to-purple-700 hover:from-blue-600 hover:to-purple-600 text-white rounded-full text-sm transition-colors duration-300">
-                              Send to
-                              </button>
-                            </div>
-                          </div>
+                    {/* Under Construction Section */}
+                    {warningShown[itinerary._id] && (
+                      <div className="mt-6 pt-4 border-t border-gray-700 bg-yellow-900 bg-opacity-20 p-4 rounded-xl">
+                        <div className="flex flex-col items-center justify-center py-6">
+                          <div className="text-5xl mb-4">🚧</div>
+                          <h4 className="text-xl font-bold text-yellow-300 mb-2">Under Construction</h4>
+                          <p className="text-gray-300 text-center">Activities and detailed information will be available soon!</p>
                         </div>
                       </div>
                     )}

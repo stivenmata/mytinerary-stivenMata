@@ -28,7 +28,8 @@ const Cities = () => {
 
     useEffect(() => {
       const formats = ["avif", "jpg", "jpeg", "webp"];
-      const cityFormatted = city.name.replace(/\s+/g, "");
+      const cityFormatted = city.name.toLowerCase().replace(/\s+/g, "-");
+
       const checkImages = async () => {
         for (const ext of formats) {
           const url = `${backendURL}/images/cities/${cityFormatted}.${ext}`;
@@ -65,7 +66,7 @@ const Cities = () => {
           onClick={() => navigate(`/cities/${city.name}`)}
           className="absolute bottom-3 left-1/2 transform -translate-x-1/2 px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-700 transition duration-300 border-2 border-blue-300 hover:shadow-blue-500"
         >
-          Ver más
+          View more
         </button>
       </div>
     );
@@ -95,8 +96,8 @@ const Cities = () => {
             </div>
           ) : (
             <div className="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg backdrop-blur-md mt-8 animate-fadeIn text-center border-2 border-gray-300">
-              <p className="text-4xl font-bold text-gray-800 drop-shadow-md">No se encontraron resultados</p>
-              <p className="text-lg text-gray-700 italic mt-3">Intente buscar otro destino. 🌍</p>
+              <p className="text-4xl font-bold text-gray-800 drop-shadow-md">No results found</p>
+              <p className="text-lg text-gray-700 italic mt-3">Try to find another destination. 🌍</p>
             </div>
           )}
         </div>

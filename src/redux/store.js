@@ -1,7 +1,7 @@
-// redux/store.js
+
 import { configureStore } from "@reduxjs/toolkit";
 import citiesReducer from "./features/citiesSlice";
-import itinerariesReducer from "./features/itinerariesSlice"; // ✅ Importa el nuevo slice
+import itinerariesReducer from "./features/itinerariesSlice"; 
 
 const store = configureStore({
   reducer: {

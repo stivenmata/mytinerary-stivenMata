@@ -5,21 +5,23 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+const backendURL = "http://localhost:5000";
+
 const Home = () => {
   const [cities, setCities] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/cities")
-      .then(response => response.json())
-      .then(data => {
+    fetch(`${backendURL}/api/cities`)
+      .then((response) => response.json())
+      .then((data) => {
         console.log("Fetched Cities:", data);
         setCities(data.data);
         setLoading(false);
       })
-      .catch(error => console.error("Error fetching cities:", error));
+      .catch((error) => console.error("Error fetching cities:", error));
   }, []);
-  
+
   const settings = {
     dots: true,
     infinite: true,
@@ -31,9 +33,8 @@ const Home = () => {
     arrows: true,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
-    slideCount: undefined,
   };
-  
+
   return (
     <div className="flex flex-col lg:flex-row items-center justify-around min-h-screen p-4 lg:p-6 bg-gradient-to-r from-blue-900 to-purple-900 text-white pb-16 lg:pb-20">
       {/* Hero Section */}
@@ -65,21 +66,53 @@ const Home = () => {
             {Array.from({ length: Math.ceil(cities.length / 4) }).map((_, i) => (
               <div key={i} className="grid grid-cols-2 gap-4 lg:gap-6 p-4 lg:p-6">
                 {cities.slice(i * 4, i * 4 + 4).map((city) => (
-                  <div key={city._id} className="relative group">
-                    <img
-                      src={`http://localhost:5000${city.image}`}
-                      alt={city.name}
-                      className="w-full h-28 lg:h-36 object-cover rounded-lg shadow-md transition-transform duration-300 transform group-hover:scale-105"
-                    />
-                    <div className="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded-lg text-xs lg:text-sm">
-                      {city.name}
-                    </div>
-                  </div>
+                  <CityCard key={city._id} city={city} />
                 ))}
               </div>
             ))}
           </Slider>
         )}
+      </div>
+    </div>
+  );
+};
+
+
+const CityCard = ({ city }) => {
+  const [imageSrc, setImageSrc] = useState("");
+  const formats = ["avif", "jpg", "jpeg", "webp"];
+
+  useEffect(() => {
+    const cityFormatted = city.name.toLowerCase().replace(/\s+/g, "-");
+
+    const checkImages = async () => {
+      for (const ext of formats) {
+        const url = `${backendURL}/images/cities/${cityFormatted}.${ext}`;
+        try {
+          const response = await fetch(url, { method: "HEAD" });
+          if (response.ok) {
+            setImageSrc(url);
+            return;
+          }
+        } catch (err) {
+          console.error("Error loading image:", err);
+        }
+      }
+      setImageSrc("https://dummyimage.com/400x300/cccccc/000000&text=No+Image");
+    };
+
+    checkImages();
+  }, [city.name]);
+
+  return (
+    <div className="relative group">
+      <img
+        src={imageSrc}
+        alt={city.name}
+        className="w-full h-28 lg:h-36 object-cover rounded-lg shadow-md transition-transform duration-300 transform group-hover:scale-105"
+      />
+      <div className="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white px-2 py-1 rounded-lg text-xs lg:text-sm">
+        {city.name}
       </div>
     </div>
   );
