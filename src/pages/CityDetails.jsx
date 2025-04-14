@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchItinerariesByCity,
-  likeItinerary,
+import {fetchItinerariesByCity, likeItinerary,
 } from "../redux/features/itinerariesSlice";
 import { fetchCities } from "../redux/features/citiesSlice";
 
@@ -48,11 +46,11 @@ const CityDetails = () => {
             return;
           }
         } catch (error) {
-          // Continue to fallback
+          
         }
       }
 
-      // Try standard image formats
+      
       const formats = ["avif", "jpg", "jpeg", "webp", "png"];
       const cityFormatted = city.name.toLowerCase().replace(/\s+/g, "-");
 
@@ -66,11 +64,11 @@ const CityDetails = () => {
             return;
           }
         } catch (error) {
-          // Continue trying other formats
+          
         }
       }
 
-      // Fallback to placeholder
+      
       setImageSrc("https://dummyimage.com/800x400/cccccc/000000&text=No+Image");
       setLoadingImage(false);
     };
@@ -83,7 +81,7 @@ const CityDetails = () => {
   const handleViewMoreClick = (id) => {
     setWarningShown((prev) => ({ 
       ...prev, 
-      [id]: !prev[id] // Toggle the under construction message
+      [id]: !prev[id] 
     }));
   };
 
@@ -93,7 +91,7 @@ const CityDetails = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-blue-900 to-purple-900 text-white">
-      {/* Hero Section with Background Image */}
+      
       <div className="relative h-screen overflow-hidden">
         {loadingImage ? (
           <div className="absolute inset-0 bg-gray-800 animate-pulse" />
@@ -191,7 +189,7 @@ const CityDetails = () => {
             </div>
           </div>
 
-          {/* Additional City Information */}
+          
           <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-gradient-to-br from-blue-800 to-purple-800 bg-opacity-40 rounded-xl p-6 backdrop-blur-sm border border-blue-700">
               <h3 className="text-xl font-bold text-center text-blue-300 mb-4">Country Information</h3>
@@ -236,7 +234,7 @@ const CityDetails = () => {
         </div>
       </div>
       
-      {/* Itineraries Section */}
+      
       <div id="itineraries" className="py-20 px-4 bg-gradient-to-b from-purple-900 to-blue-900">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
@@ -330,7 +328,7 @@ const CityDetails = () => {
                       ))}
                     </div>
                     
-                    {/* Actions - Now just a single "View Details" button */}
+                    
                     <div className="flex justify-end border-t border-gray-700 pt-4">
                       <button
                         onClick={() => handleViewMoreClick(itinerary._id)}
