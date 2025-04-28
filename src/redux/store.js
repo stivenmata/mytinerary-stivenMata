@@ -1,12 +1,14 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import citiesReducer from "./features/citiesSlice";
-import itinerariesReducer from "./features/itinerariesSlice"; 
+import itinerariesReducer from "./features/itinerariesSlice";
+import authReducer from "./features/authSlice"; 
 
 const store = configureStore({
   reducer: {
     cities: citiesReducer,
-    itineraries: itinerariesReducer, 
+    itineraries: itinerariesReducer,
+    auth: authReducer, 
   },
 });
 
