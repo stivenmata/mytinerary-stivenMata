@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchItinerariesByCity, likeItinerary } from "../redux/features/itinerariesSlice";
 import { fetchCities } from "../redux/features/citiesSlice";
 
-// Import components
+
 import HeroSection from "../components/city/HeroSection";
 import CityFeatures from "../components/city/CityFeatures";
 import ItinerariesSection from "../components/city/ItinerariesSection";
 import FooterNavigation from "../components/city/FooterNavigation";
 
-// Import hooks
+
 import { useCityImage } from "../components/hooks/useCityImage.js";
 
 const backendURL = "http://localhost:5000";
@@ -20,26 +20,26 @@ const CityDetails = () => {
   const dispatch = useDispatch();
   const [warningShown, setWarningShown] = useState({});
 
-  // Redux selectors
+  
   const itineraries = useSelector((state) => state.itineraries.items || []);
   const loadingItineraries = useSelector((state) => state.itineraries.loading);
   const cities = useSelector((state) => state.cities.allCities);
   const isLoadingCities = useSelector((state) => state.cities.loading);
 
-  // Find the city by name
+  
   const city = Array.isArray(cities)
     ? cities.find((c) => c.name.toLowerCase() === cityName.toLowerCase())
     : null;
 
-  // Custom hook for city image
+  
   const { imageSrc, loadingImage } = useCityImage(city, cityName, backendURL);
 
-  // Fetch cities
+  
   useEffect(() => {
     dispatch(fetchCities());
   }, [dispatch]);
 
-  // Fetch itineraries for the city
+  
   useEffect(() => {
     if (city?._id) {
       dispatch(fetchItinerariesByCity(city._id));

@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const backendURL = "http://localhost:5000";
 
-// Acción asincrónica para obtener ciudades
+
 export const fetchCities = createAsyncThunk("cities/fetchCities", async () => {
   const res = await fetch(`${backendURL}/api/cities`);
   const data = await res.json();
